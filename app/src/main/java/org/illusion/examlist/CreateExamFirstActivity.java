@@ -26,12 +26,12 @@ public class CreateExamFirstActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = titleEditText.getText().toString();
-                String version = subjectEditText.getText().toString();
+                String title = titleEditText.getText().toString();
+                String subject = subjectEditText.getText().toString();
 
                 Intent intent = new Intent(CreateExamFirstActivity.this, CreateExamSecondActivity.class);
-                intent.putExtra("title", name);
-                intent.putExtra("subject", version);
+                intent.putExtra("title", title);
+                intent.putExtra("subject", subject);
                 startActivityForResult(intent, REQUEST_CODE_SECOND_ACTIVITY);
             }
         });
