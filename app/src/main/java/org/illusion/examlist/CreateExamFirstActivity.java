@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateExamFirstActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SECOND_ACTIVITY = 1;
-    private EditText nameEditText;
-    private EditText versionEditText;
-    private EditText licenseEditText;
+    private EditText titleEditText;
+    private EditText subjectEditText;
     private Button nextButton;
 
     @Override
@@ -20,22 +19,19 @@ public class CreateExamFirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_exam_first);
 
-        nameEditText = findViewById(R.id.nameEditText);
-        versionEditText = findViewById(R.id.versionEditText);
-        licenseEditText = findViewById(R.id.licenseEditText);
+        titleEditText = findViewById(R.id.titleEditText);
+        subjectEditText = findViewById(R.id.subjectEditText);
         nextButton = findViewById(R.id.nextButton);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = nameEditText.getText().toString();
-                String version = versionEditText.getText().toString();
-                String license = licenseEditText.getText().toString();
+                String name = titleEditText.getText().toString();
+                String version = subjectEditText.getText().toString();
 
                 Intent intent = new Intent(CreateExamFirstActivity.this, CreateExamSecondActivity.class);
-                intent.putExtra("name", name);
-                intent.putExtra("version", version);
-                intent.putExtra("license", license);
+                intent.putExtra("title", name);
+                intent.putExtra("subject", version);
                 startActivityForResult(intent, REQUEST_CODE_SECOND_ACTIVITY);
             }
         });
@@ -45,7 +41,8 @@ public class CreateExamFirstActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SECOND_ACTIVITY && resultCode == RESULT_OK) {
-            // Handle any result data if needed
+            titleEditText.setText(data.getStringExtra("title"));
+            subjectEditText.setText(data.getStringExtra("subject"));
         }
     }
 }

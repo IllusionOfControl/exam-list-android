@@ -20,10 +20,13 @@
         android:theme="@style/Theme.ExamList"
         tools:targetApi="31">
         <activity
-            android:name=".CreateExamThirdActivity"
+            android:name=".CreateExamFirstActivity"
             android:exported="false" />
         <activity
             android:name=".CreateExamSecondActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateExamThirdActivity"
             android:exported="false" />
         <activity
             android:name=".AboutActivity"
@@ -33,7 +36,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
