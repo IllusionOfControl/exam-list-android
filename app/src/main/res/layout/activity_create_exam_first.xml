@@ -27,6 +27,14 @@
             android:layout_marginBottom="16dp"
             android:hint="Subject" />
 
+        <EditText
+            android:id="@+id/markEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Mark"
+            android:inputType="numberDecimal" />
+
     </LinearLayout>
 
     <Button

@@ -12,6 +12,7 @@ public class CreateExamFirstActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SECOND_ACTIVITY = 1;
     private EditText titleEditText;
     private EditText subjectEditText;
+    private EditText markEditText;
     private Button nextButton;
 
     @Override
@@ -21,6 +22,7 @@ public class CreateExamFirstActivity extends AppCompatActivity {
 
         titleEditText = findViewById(R.id.titleEditText);
         subjectEditText = findViewById(R.id.subjectEditText);
+        markEditText = findViewById(R.id.markEditText);
         nextButton = findViewById(R.id.nextButton);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -28,10 +30,12 @@ public class CreateExamFirstActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String title = titleEditText.getText().toString();
                 String subject = subjectEditText.getText().toString();
+                String mark = markEditText.getText().toString();
 
                 Intent intent = new Intent(CreateExamFirstActivity.this, CreateExamSecondActivity.class);
                 intent.putExtra("title", title);
                 intent.putExtra("subject", subject);
+                intent.putExtra("mark", mark);
                 startActivityForResult(intent, REQUEST_CODE_SECOND_ACTIVITY);
             }
         });
