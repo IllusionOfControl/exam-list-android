@@ -31,8 +31,14 @@ public class MainActivity extends AppCompatActivity {
         IOnExamClickListener examClickListener = new IOnExamClickListener() {
             @Override
             public void onExamClick(Exam exam) {
-                Toast.makeText(getApplicationContext(), "Был выбран пункт " + exam.getTitle(),
-                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, ExamDetailsActivity.class);
+                intent.putExtra("examiner", exam.getExaminer());
+                intent.putExtra("semester", Integer.toString(exam.getSemester()));
+                intent.putExtra("location", exam.getLocation());
+                intent.putExtra("title", exam.getTitle());
+                intent.putExtra("subject", exam.getSubject());
+                intent.putExtra("mark", Integer.toString(exam.getMark()));
+                startActivity(intent);
             }
         };
 
@@ -49,20 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 showCreateExamFirstActivity();
             }
         });
-
-
-    }
-
-    public void onItemClick() {
-        // Start the ItemDetailsActivity and pass the selected item information
-        Intent intent = new Intent(MainActivity.this, ExamDetailsActivity.class);
-//        intent.putExtra("examiner", exam.getExaminer());
-//        intent.putExtra("semester", exam.getSemester());
-//        intent.putExtra("location", exam.getLocation());
-//        intent.putExtra("title", exam.getTitle());
-//        intent.putExtra("subject", exam.getSubject());
-//        intent.putExtra("mark", exam.getMark());
-        startActivity(intent);
     }
 
     @Override

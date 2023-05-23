@@ -2,13 +2,10 @@ package org.illusion.examlist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-public class CreateExamThirdActivity extends AppCompatActivity {
+public class ExamDetailsActivity extends AppCompatActivity {
 
     private TextView titleTextView;
     private TextView subjectTextView;
@@ -17,13 +14,10 @@ public class CreateExamThirdActivity extends AppCompatActivity {
     private TextView semesterTextView;
     private TextView locationTextView;
 
-    private Button saveButton;
-    private Button cancelButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_exam_third);
+        setContentView(R.layout.activity_exam_details);
 
         titleTextView = findViewById(R.id.titleTextView);
         subjectTextView = findViewById(R.id.subjectTextView);
@@ -31,9 +25,6 @@ public class CreateExamThirdActivity extends AppCompatActivity {
         examinerTextView = findViewById(R.id.examinerTextView);
         semesterTextView = findViewById(R.id.semesterTextView);
         locationTextView = findViewById(R.id.locationTextView);
-
-        saveButton = findViewById(R.id.saveButton);
-        cancelButton = findViewById(R.id.cancelButton);
 
         String title = getIntent().getStringExtra("title");
         String subject = getIntent().getStringExtra("subject");
@@ -48,26 +39,5 @@ public class CreateExamThirdActivity extends AppCompatActivity {
         examinerTextView.setText("Examiner: " + examiner);
         semesterTextView.setText("Semester: " + semester);
         locationTextView.setText("Location: " + location);
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Save the values to an object and collection
-                // For example:
-                Exam exam = new Exam(title,subject, examiner, Integer.parseInt(mark), Integer.parseInt(semester), location);
-                ExamCollection.getInstance().addExam(exam);
-
-                Intent intent = new Intent(CreateExamThirdActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CreateExamThirdActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }
