@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Semester" />
+            android:hint="Semester"
+            android:inputType="numberDecimal"/>
 
         <EditText
             android:id="@+id/locationEditText"

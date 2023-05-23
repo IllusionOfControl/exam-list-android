@@ -1,17 +1,15 @@
 package org.illusion.examlist;
 
-import android.annotation.SuppressLint;
-
 public class Exam {
-    private String name;
+    private String title;
     private String subject;
     private String examiner;
     private int semester;
     private int mark;
     private String location;
 
-    public Exam(String name, String subject, String examiner, int semester, int mark, String location) {
-        this.name = name;
+    public Exam(String title, String subject, String examiner, int semester, int mark, String location) {
+        this.title = title;
         this.subject = subject;
         this.examiner = examiner;
         this.semester = semester;
@@ -19,8 +17,8 @@ public class Exam {
         this.location = location;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getSubject() {

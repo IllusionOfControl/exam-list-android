@@ -2,6 +2,7 @@ package org.illusion.examlist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,10 +10,16 @@ import android.widget.TextView;
 
 public class CreateExamThirdActivity extends AppCompatActivity {
 
-    private TextView nameTextView;
-    private TextView versionTextView;
-    private TextView licenseTextView;
-    private Button confirmButton;
+    private TextView titleTextView;
+    private TextView subjectTextView;
+    private TextView markTextView;
+
+    private TextView examinerTextView;
+    private TextView semesterTextView;
+    private TextView locationTextView;
+
+    private Button saveButton;
+    private Button cancelButton;
 
     private String name;
     private String version;
@@ -23,28 +30,48 @@ public class CreateExamThirdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_exam_third);
 
-        nameTextView = findViewById(R.id.nameTextView);
-        versionTextView = findViewById(R.id.versionTextView);
-        licenseTextView = findViewById(R.id.licenseTextView);
-        confirmButton = findViewById(R.id.confirmButton);
+        titleTextView = findViewById(R.id.titleTextView);
+        subjectTextView = findViewById(R.id.subjectTextView);
+        markTextView = findViewById(R.id.markTextView);
+        examinerTextView = findViewById(R.id.examinerTextView);
+        semesterTextView = findViewById(R.id.semesterTextView);
+        locationTextView = findViewById(R.id.locationTextView);
 
-        name = getIntent().getStringExtra("name");
-        version = getIntent().getStringExtra("version");
-        license = getIntent().getStringExtra("license");
+        saveButton = findViewById(R.id.saveButton);
+        cancelButton = findViewById(R.id.cancelButton);
 
-        nameTextView.setText(name);
-        versionTextView.setText(version);
-        licenseTextView.setText(license);
+        String title = getIntent().getStringExtra("title");
+        String subject = getIntent().getStringExtra("subject");
+        String mark = getIntent().getStringExtra("mark");
+        String examiner = getIntent().getStringExtra("examiner");
+        String semester = getIntent().getStringExtra("semester");
+        String location = getIntent().getStringExtra("location");
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
+        titleTextView.setText("Title: " + title);
+        subjectTextView.setText("Subject: " + subject);
+        markTextView.setText("Mark: " + mark);
+        examinerTextView.setText("Examiner: " + examiner);
+        semesterTextView.setText("Semester: " + semester);
+        locationTextView.setText("Location: " + location);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Save the values to an object and collection
                 // For example:
-                Exam exam = new Exam(",",",",",",2, 2, "");
+                Exam exam = new Exam(title,subject, examiner, Integer.parseInt(mark), Integer.parseInt(semester), location);
                 ExamCollection.getInstance().addExam(exam);
 
-                // Finish the activity and return to the previous activity
+                Intent intent = new Intent(CreateExamThirdActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Save the values to an object and collection
+                // For example:
                 setResult(RESULT_OK);
                 finish();
             }

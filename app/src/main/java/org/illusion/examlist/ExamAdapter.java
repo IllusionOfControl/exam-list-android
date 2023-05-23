@@ -28,7 +28,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ExamAdapter.ViewHolder holder, int position) {
         Exam exam = exams.get(position);
-        holder.nameView.setText(exam.getName());
+        holder.nameView.setText(exam.getTitle());
         holder.descriptionView.setText(exam.getDescription());
     }
 

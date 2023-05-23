@@ -1,5 +1,7 @@
 package org.illusion.examlist;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,16 +20,12 @@ public class ExamCollection {
         return instance;
     }
 
+    public void loadExams(Context context) {
+        exams = FileUtil.loadItemListFromJson(context);
+    }
+
     public void addExam(Exam exam) {
         exams.add(exam);
-    }
-
-    public void removeExam(Exam exam) {
-        exams.remove(exam);
-    }
-
-    public List<Exam> getAllExams() {
-        return exams;
     }
 
     public List<Exam> toList() {
