@@ -70,10 +70,8 @@ public class CreateExamThirdActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Save the values to an object and collection
-                // For example:
-                setResult(RESULT_OK);
-                finish();
+                Intent intent = new Intent(CreateExamThirdActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

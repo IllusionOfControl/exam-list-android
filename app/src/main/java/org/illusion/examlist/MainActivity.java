@@ -28,7 +28,15 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.examList);
 
-        ExamAdapter adapter = new ExamAdapter(this, examCollection.toList());
+        IOnExamClickListener examClickListener = new IOnExamClickListener() {
+            @Override
+            public void onExamClick(Exam exam) {
+                Toast.makeText(getApplicationContext(), "Был выбран пункт " + exam.getTitle(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ExamAdapter adapter = new ExamAdapter(this, examCollection.toList(), examClickListener);
         recyclerView.setAdapter(adapter);
 
         toolbar = findViewById(R.id.toolbar);
@@ -41,6 +49,20 @@ public class MainActivity extends AppCompatActivity {
                 showCreateExamFirstActivity();
             }
         });
+
+
+    }
+
+    public void onItemClick() {
+        // Start the ItemDetailsActivity and pass the selected item information
+        Intent intent = new Intent(MainActivity.this, ExamDetailsActivity.class);
+//        intent.putExtra("examiner", exam.getExaminer());
+//        intent.putExtra("semester", exam.getSemester());
+//        intent.putExtra("location", exam.getLocation());
+//        intent.putExtra("title", exam.getTitle());
+//        intent.putExtra("subject", exam.getSubject());
+//        intent.putExtra("mark", exam.getMark());
+        startActivity(intent);
     }
 
     @Override
