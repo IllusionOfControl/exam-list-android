@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ExamCollection examCollection = ExamCollection.getInstance();
+    private ExamAdapter examAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +34,12 @@ public class MainActivity extends AppCompatActivity {
         IOnExamClickListener examClickListener = new IOnExamClickListener() {
             @Override
             public void onExamClick(Exam exam) {
-                Intent intent = new Intent(MainActivity.this, ExamDetailsActivity.class);
-                intent.putExtra("examiner", exam.getExaminer());
-                intent.putExtra("semester", Integer.toString(exam.getSemester()));
-                intent.putExtra("location", exam.getLocation());
-                intent.putExtra("title", exam.getTitle());
-                intent.putExtra("subject", exam.getSubject());
-                intent.putExtra("mark", Integer.toString(exam.getMark()));
-                startActivity(intent);
+                showExamDetailtActivity(exam);
             }
         };
 
-        ExamAdapter adapter = new ExamAdapter(this, examCollection.toList(), examClickListener);
-        recyclerView.setAdapter(adapter);
+        examAdapter = new ExamAdapter(this, examCollection.toList(), examClickListener);
+        recyclerView.setAdapter(examAdapter);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 showCreateExamFirstActivity();
             }
         });
+
+        registerForContextMenu(recyclerView);
     }
 
     @Override
@@ -85,6 +83,33 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        // Inflate the context menu layout
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Exam selectedExam = examCollection.toList().get(examAdapter.getPosition());
+        if (item.getItemId() == R.id.context_view) {
+            showExamDetailtActivity(selectedExam);
+        }
+        if (item.getItemId() == R.id.context_edit) {
+
+        }
+        if (item.getItemId() == R.id.context_remove) {
+            examCollection.removeExam(selectedExam);
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+
+        return true;
+    }
+
+
     private void showAboutActivity() {
         // Replace AboutActivity.class with your actual About activity
         Intent intent = new Intent(this, AboutActivity.class);
@@ -98,6 +123,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void showCreateExamFirstActivity() {
         Intent intent = new Intent(this, CreateExamFirstActivity.class);
+        startActivity(intent);
+    }
+    private void showExamDetailtActivity(Exam exam) {
+        Intent intent = new Intent(MainActivity.this, ExamDetailsActivity.class);
+        intent.putExtra("examiner", exam.getExaminer());
+        intent.putExtra("semester", Integer.toString(exam.getSemester()));
+        intent.putExtra("location", exam.getLocation());
+        intent.putExtra("title", exam.getTitle());
+        intent.putExtra("subject", exam.getSubject());
+        intent.putExtra("mark", Integer.toString(exam.getMark()));
         startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package org.illusion.examlist;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,16 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ViewHolder> {
     private final List<Exam> examList;
     private IOnExamClickListener listener;
 
+    private int position = 0;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     ExamAdapter(Context context, List<Exam> examList, IOnExamClickListener listener) {
         this.examList = examList;
         this.inflater = LayoutInflater.from(context);
@@ -23,7 +34,6 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ViewHolder> {
     }
     @Override
     public ExamAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = inflater.inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view);
     }
@@ -46,9 +56,22 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ViewHolder> {
                 listener.onExamClick(exam);
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                setPosition(position);
+                return false;
+            }
+        });
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         final TextView nameView, descriptionView;
 
 
@@ -56,6 +79,13 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ViewHolder> {
             super(view);
             nameView = view.findViewById(R.id.name);
             descriptionView = view.findViewById(R.id.description);
+
+            view.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+
         }
     }
 }

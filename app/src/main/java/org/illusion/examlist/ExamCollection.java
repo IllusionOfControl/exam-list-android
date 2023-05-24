@@ -28,6 +28,10 @@ public class ExamCollection {
         exams.add(exam);
     }
 
+    public void removeExam(Exam exam) {
+        exams.remove(exam);
+    }
+
     public List<Exam> toList() {
         return exams;
     }
