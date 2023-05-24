@@ -17,6 +17,30 @@ public class Exam {
         this.location = location;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setExaminer(String examiner) {
+        this.examiner = examiner;
+    }
+
+    public void setSemester(int semester) {
+        this.semester = semester;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getTitle() {
         return title;
     }

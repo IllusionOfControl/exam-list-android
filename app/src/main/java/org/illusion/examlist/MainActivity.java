@@ -1,9 +1,11 @@
 package org.illusion.examlist;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -13,9 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         IOnExamClickListener examClickListener = new IOnExamClickListener() {
             @Override
             public void onExamClick(Exam exam) {
-                showExamDetailtActivity(exam);
+                showExamDetailActivity(exam);
             }
         };
 
@@ -80,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
             saveExamData();
             return true;
         }
+        if (itemId == R.id.action_export) {
+            showCreateExamFirstActivity();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -96,14 +99,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         Exam selectedExam = examCollection.toList().get(examAdapter.getPosition());
         if (item.getItemId() == R.id.context_view) {
-            showExamDetailtActivity(selectedExam);
+            showExamDetailActivity(selectedExam);
         }
         if (item.getItemId() == R.id.context_edit) {
-
+            showExamEditActivity(examAdapter.getPosition());
         }
         if (item.getItemId() == R.id.context_remove) {
-            examCollection.removeExam(selectedExam);
-            recyclerView.getAdapter().notifyDataSetChanged();
+            showConfirmationRemoveDialog();
         }
 
         return true;
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateExamFirstActivity.class);
         startActivity(intent);
     }
-    private void showExamDetailtActivity(Exam exam) {
+    private void showExamDetailActivity(Exam exam) {
         Intent intent = new Intent(MainActivity.this, ExamDetailsActivity.class);
         intent.putExtra("examiner", exam.getExaminer());
         intent.putExtra("semester", Integer.toString(exam.getSemester()));
@@ -134,5 +136,37 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("subject", exam.getSubject());
         intent.putExtra("mark", Integer.toString(exam.getMark()));
         startActivity(intent);
+    }
+
+    private void showExamEditActivity(int position) {
+        Intent intent = new Intent(MainActivity.this, ExamEditActivity.class);
+        intent.putExtra("position", position);
+        startActivity(intent);
+    }
+
+    private void showConfirmationRemoveDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure you want to proceed?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Exam selectedExam = examCollection.toList().get(examAdapter.getPosition());
+                examCollection.removeExam(selectedExam);
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle the negative button click (e.g., cancel the chosen action)
+                // ...
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
